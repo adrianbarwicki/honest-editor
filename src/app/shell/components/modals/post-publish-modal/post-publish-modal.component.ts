@@ -5,8 +5,8 @@ import { PostService } from '@app/shared/services/post.service';
 import { Post } from '@app/shared/interfaces';
 import { WalletService, ICurrencyConversion, ICurrencyConversionResponse } from '@app/shared/services/wallet.service';
 
-let bodyHTML: string = '';
-let _bodyHTML: string = '';
+let bodyHTML = '';
+let _bodyHTML = '';
 
 const ridMapFunction = (j: number, el: any) => {
   const $el = $(el);
@@ -54,12 +54,13 @@ const getRidOfStackeditWrapper = (body: string) => {
 })
 export class PostPublishModalComponent {
   post: Post;
+  paidSectionEnabled: boolean;
   paidSectionCostInUSD: number;
   bchUsdRate: number;
-  showPaidSectionCostInUSD: boolean = false;
+  showPaidSectionCostInUSD = false;
   bodyHTML: string;
-  paidSectionLinebreakEnd: number = 0;
-  paidSectionLineBreakTouched: boolean = false;
+  paidSectionLinebreakEnd = 0;
+  paidSectionLineBreakTouched = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -72,6 +73,10 @@ export class PostPublishModalComponent {
     // remove wrappers on html tags
     this.bodyHTML = getRidOfStackeditWrapper(this.bodyHTML);
     this.paidSectionLinebreakEnd = $(this.bodyHTML).length;
+
+    setTimeout(() => {
+      this.paidSectionEnabled = this.post.parentPostId ? false : true;
+    });
 
     if (!this.bchUsdRate) {
       this.walletService.getCurrencyData().subscribe((response: ICurrencyConversionResponse) => {

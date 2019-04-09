@@ -19,7 +19,7 @@
     [displayBy]="'hashtag'"
   ></tag-input>
   <hr />
-  <div class="form-check">
+  <div *ngIf="paidSectionEnabled" class="form-check">
     <input
       class="form-check-input"
       type="checkbox"
@@ -117,7 +117,7 @@
       </div>
     </div>
   </div>
-  <hr />
+  <hr *ngIf="paidSectionEnabled" />
   <small
     ><strong>
       <ul>
